@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Практикум: второй поток</title>
+<meta name="description" content="Материалы практической части: четыре блока, задания с готовыми запросами и учебными файлами.">
+<style>
+:root{
+  --bg:#FFFFFF; --bg-alt:#FAFAF9; --card:#FFFFFF; --panel:#F7F7F6; --band:#EBEBEA;
+  --fg:#111111; --muted:#4F5D75; --faint:#6E7A8C; --line:#D6D3D0;
+  --or:#F5732B; --or-l:#F58B3B; --sand:#FFAB66; --on-or:#FFFFFF;
+  --navy:#004E98; --on-navy:#FFFFFF;
+  --cream-bg:#FDECDC; --cream-fg:#2A1B0E;
+  --sky-bg:#E3ECF8; --sky-fg:#0E1A28;
+  --ph-bg:#FFE2C6; --ph-fg:#7A3B00; --focus:#004E98;
+  --pat:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeUAAAMqBAMAAABOP0QZAAAAGFBMVEXt7u7r6+va2tryjkT1dCtTXnRCe8gBTpfrkgSNAAAxOElEQVR42u19z5Mbx5nllwk0RUqjRhZaTcl2jBuNJqUI68AmKc9VIN3SVWxKlGJjN1aUTWlOG+O/Y/c/mIi15+p1aGP2upIo+eTYiGGzdfLEDhvdOHhsh9ioBCRSlMVGzqHRjQJQlfVl5qsCWlRdbJFgZr587/uVVfWViCjnikk2Nkgoo+ljsysUBV5GU11tUEQxPf6sq3MH7K+T0WaXotCJKaa6EooORJS3wubGaFlGfxSKOpaNxIDx49t7US5mIjK6HTix6a0ejmDHbHrnr0xNZO7/ynv2WN6ani/+v1bYh5iJiEy7p7wBN4//6UHljOWH/fObp6f+VDzz8v5fTvtBbt5IQXfm5Zd+b1nFNy8czxw95Tvx0z8Z/UNjwWz6719M/YszL//Ra2794pup/0w889IfBAMziaef+vNpr73+QRJXprZN/32bkH7TcZVZ/OKm5W+/+FWUq20iItp3n3ipMfbfmdrOgUzOVJsf2yDTMy/9az7PRERPP/XI0ZR/9MLEH8is3b1l307x9orbzKc27T9YvqZ5I9WNdppYTgFJ17Y5u5k/2he/5qtMf5D/W/OPgqFtIhpsO0zcnPrtgUwXNgMyLb/L3/DzjFWK68zBZIPPcjNl4lTM/fdZA57lyts84Oyhi7z9hZ2hbXGDqx2e9zbvcMcz/0MxtE1EBx3WcJU0RaRp27Ah09sclZk+ezzRYDItWUz305cnmXrIWOOrjDXK99nj0Q2mqYomZ7MvEg+zecphifT8e7mgNV82ROJGjfnD1dyJxRoxMfevOcXd5dw1nlcu47Gdt8h1oD3iYj7nmNpdz9nveNNtvAWuT45yJtaZZjKRe5pT/8kxm33mld/ZklDxX12Lgld2Htlyz9HIL1hBm5dPZwawCdodWSGiU1aRPXCveLlRWlgV0bc41eAliqs2ZTecx6MFphsjqxtb5WJe+KVHdWpxY+bvr7mPJz7gBukL2RPXFROz2SSf6+3MNfaVz3iCm9NKv4nHMHseN4mbWbt9zmu83FiQvzmrxMX8gd8SaTljjV/76YYW/oH5w6Ws0Ky4mB8oT8zi3XSaG57jWUQ7caW7ErNKTMxG+C6RzqYbVct3vAWuRddTNyenYkhgPvVLb8zijbTdfl95D/gO16LTXLfJuUuQwLxJ/lfafvdUwIAhrjtv4hFmE7LEhRTTXQ4Yj64EuG5JTMzm+ZAl0ubUGsV7IeOdventus06F7NsBWGuTmfaQeMRNwEl7ZBpT2CuqqAlTmnMhI3HD1crboEqgdmE3t6d9LQPb4aNt+Ar7oriYnY8Hkm5lEP2x0ruuD9s5Gg9E/NzoUucMEDTCh1PcMVtXJO/IWbzXjDmt1V4RTV2vcv8XcW1lBtiFsErJJFk1pwPH7DulXQzbGqIuRe+xPGpW+HjsSNJZHErFszvAzAno8vXCiCcdz0m5pB3iFkAlsgvhtigPUKGYGOuQtbYAlTOXp675jaxhCQkk1V0eLQnIlrginuJWzkneW4RlpfnMOKuO4ubZQ4SFEzHp8bohm9yip+EHWE+j1kiHSnaXCMq1aDd/IjESXt026wPGo99WnK0Obz4IwFl39RpSRWFmUvGEVZeaiWRtAzXaFZR453lirvhUsxJJC1HgRJlKyS4cV6wE89DzDhahlNLRaWLO6WqtGEWMFpoQRMFn4RlF+WWSzv4TglKtofbjU653VMDHuYqze/lduMqYmPuAdd4nYjMTdx47Bq67lDZSCwvVawLI+Fi0JKtbUzdN+lOZuO42Ty3gEsUGpe9u5VWDb6RSlhR5e4/iymtSrdnqmF1U0wwQNX3x/ZnoFQ7nOyzHZNE1fdH9qdnRJ5w4XnOpajYgmDnk2h7rgIrU7eMm59bSaz54R13AQEanWwL9WBGdqokzUjb1ML6RL6LrbEVJsHmR2hbKSApgfN8Ai6JNmjVQjsILhL13eFZ4XmG50Nq/rW9isYMDwTwiZ9IH4YesHoCMM99tXsSfNgTqG36HvP3mOcEs/qe5yfhqsZE9DFqtI3h/6IGrLaIBuCCnB5XD5f68WAvdKi62hhhf/xZO3htzWpBuYMYvSP5cdc3thrd3EjZz/8d0OLs/DHecDYmrvuVy6N9tXXxsq6wv7qR5ipe7v7pjNeA8V/fbyQ2FIz5YdKHVa/7jd8/t5H+F681Y689bN4q1IeJ8fd/H992vgPfO2czu29/7eqCzKlrY/+N1/ZErKq+bhxH0FbItNB0lI6R10qPz9cdTe98jnPdWNFuvuGtoiHrhA878jz//shhhQlnk3GtXfg935PFP57a80EPjLmbkoe9xpd3n9OwoPpzNtPmxeLLeZOae7Llbc6xllhlPzXWLx4ykU7DXN3k3QwUbzOX+DqvtYx5cCuVlzIwU/UqZ42Gf/TFeyWnf3OWdRVLjS4vmnA20bebCcSeiej1N/JzEZdkqZr/PqY5m24pA3DuqTPr5/y62o2Vau4mPmzRbHnOf9DygeMS855WzX7qB8yzyb45/5rddwtXf1N937p2kx0D4rK0neN2jEeGaPWLfdsiS8Ns9d0+TyfYNrEkn01E1LP5qtez1S18CtzqTe3lwOBJic0/Zze9+8prruzMxPrYYg0K2NgxV7XPEn020XqnEMyzssfhrCatZz1DaTVj+drqEZ3fmgzhmarpfPr34dhMX/4ylXfFefnWqzCnPbTo9EznWl50KZFnOlVDOW0burynJXeRkD/Pzauvwpz2kGgfj2iwNOdhruKcdmbgyT0cqYEzMem8xlNB9c/rU+s3uaaCvJMxUPmYpxPGa2GTTuUl+feLkMFKM3ieClehxnVlOv9lLRR0Cc7ZwKSSTwVOOhmuOFFgEefCtjmYJ4V1LXTaV3O9ZIEGbTg+bLKkFBB1OeoWF6y6ioN5IkSHP9o43lKcdd4iYFlJh8XzeHWFePPginuCAzse0jzMYw9cIm6ujImbl+CgnNghZQzMyWIIcYRTdS/RUBF6n5iYq5bIFZp/cku0GCht1jNxDbADTeR23JdyMU7MdNiYRxH1IWTqRG7HjfaLe4iJDxQb8/EtCFTrg5attEw36D2ctFmYjw1atDCYjXsiDbGqHh/zcUfVBQzkY+E46OZZgOfu7jlgluD65vgGYMtZl8GJJxdzNSU7QUQrh8NEEf7MLHXIAfNwk1Ft/o5zeJcMZzGY6IFywqxcaXFIc7hEB2PukhPmGqimmhCOUxgITUvM526YDzOnBg6zco8/z25DEhI25iou2U4Ip1+quDvkhpkahD1ab3nYSlhBafZcMbcI+1ag1O6ZrPk0ZMYd5YrZELafnNfXOEKINh1yxQx220TKI3sPOf6MlTNmqcH95Foe2bu44w16cJe8eG4hMXs5xJp3RdlV7pirBbzY7E6a8D0iMj3y4HkFjFl6VSzP3vV02pq8tF1Fs+yBWXSDnbYD5ivoRxA9LdprFbHywoy25mrDOVQREYl7Hm7s8S6Rn7bRNPvtosetK9MhP8xVZFXl6bY9zw7iPU/M6Keo6YqvT7znCHpwV9GcaNu7F5Ojuk1bkTfmFs3JdeDkxgYd/6hbB6/c/zuH4r7DFwB29hR586xobi6Hc1+TAnmGvToCbEVxTdrsKJonzCFX9zbLeZt2j0Iwz1dfsMU2z5gpCHNrrjCLAUPe3Y46AfS5VFi7l+xutdvOSgFObr+hxba227Kw1O4nlemBDfRgR5wQ1+QG2tzrX4wydG1r+3Oie2mJxa3dFK5Nd8uazVfpRIOutVcnPxRpdHc3OkFhN8Md6cwqTKg4jsWqUBQRaUNGtynK7tltNEVEosnJR1oklNH0+DMQig2iiGJiDSgUGW1iHdlqexEpIopja4/yWKySUHSQe0IjVjcSmxx/FPxEnmxsjNZl7t/OqwyrF4iUNrpr7UZmdF5NHkfR4bwHwiZ90z+3Of2nX/j3Qovlren5zG+t9tdfT6TPvhObRC/mg8oZ2w//NgUyPXP5j3857Qf5xTdT0ImfvGTrSPTNC8c/rJ/6s2cTtqcTFbexYDbyxnq63F/+o9fc+sXN1L0Sz7z0p28YmImePvNnn92O136QxJWpbSNv2IT0v/aUM8mbNvH9o8jV9qEyP3eeeKkxPkIWz6b/36w7+hNXfZsfb1pd5UoW1UmeiUg+9cjRlH/0wiSbWbub87Vz8bbbJwbNqU37D5avMk+T62633s10p9p0bZuzm/mjffFrvsr0B4zf/ia13u1PORWzxe8xqJtTY6Zr28j/zBjumXP/jy3vv73I+NHLf/wmX9tEJH6g+cJWKehShX2DNeBZrrzNg03Oz8R1JhZh/IWdoW3xPncbf9PhyNu8wzUC898jhraJ6KDDGq7SSPu3KTybG2xrebvBmZn/lT/BbR0oWUzLBrN+Nqf4rkm0GGuUbNkQPcc0F1ZplHW7Ywqzeeo9/hLp7Hu5oHs3HJII8Taz64xYzZ1YrHHPSVw63hHRci4x55zyJr4fy524xz0bMucdU7u8Tn960228BW4wyPvCoV5nYjZn3WgmWv6lde6JHsiM6x2uui9aJzaXiIlZbrouMYeYB+4VL1fd0ro5kv1XHh/QE1dtArvpPiC37auxtnxe5WJe+KVHdbqc3dLRfKA8NvEdrhu7kD1xnSsBs0k+19nMNXp+c5jrxqTfxGOYPY+bMnsS+Hb5C49Xq2xT/8BviZn9v7720w0t/APzh0tZoVlxMT9QnphFukX7P+UumURn9ArMecYmgdn4f3DkbLpRtXzHC0xMcj7ik8B86qY35lSizfvKe8Ag151HXgLzJvlfafsd9KH4ENedN/EIc1C7lYVp0zVBH02/yiU6ZXPybPQYs3k+ZIkpHR3leyHjLXMNLcV1N7iYAz/FMf0oY+B3oNndWzW7hpzCHHgjesqLhb6OxQ5XK26BKoHZhH4Z6/mJNT4M0w0t+Iq7oriY+4FLnHoINvg7tOzmro0crWdifi50iTQubv/+tsfWwhW3cbWpIWbzXjDm5xUsOB9e7zJ/V3HNCoaYEa8SJZk158PHq3OJrjnalIQElumpW+HjVbmev25xKxbM7wEwn0rw8nW4tLOqNbvlc15MP8QM+SC5WCHsxTa4FX7eOcKMeTKuBUtIHD03uRUNEpKQTFbR4dGeiGiB67mXuJVzkucWYXkBfe2C/X6TcjIHCQqm4577Cma8qjNmzcZ8HrPE4+8sGNAeOhs0z49InLRHnShgDahWHDeHF38kkBYSDUhd6p7ZHGHltY2RSFqGazSrqPHOcsXdcCnmJJKWIyeGspVj4XDTF8XFjKNlODXwG/Etp4mZj1BJXNdOIlrQqIIlrW6xXdrBd0pQsl1Qys2+lEOCLgt4DQW3h443rhpszMi+YNcJ2RLT4W34uuZvNvidsiowkyUiEi4fKePWnhLcFwx9tcB4DzED3fZhEngeiZldWjX4Riqpp5BrVIQ3FvTE6HdEa/P2Rnwq5mWw/Rko1Q4n+2zHJMFqZB9Koy/Bl7ecdykqtiAEzYjnKrAydcq4BT+3kmZGvKADdBGxgH1i8QBup8zNZocgiW7011rFjsc+eq+xFSZ7YMxmVkLkG9WJ7lvhmXFLtEGrFtpBoH94AnhW8BHhmIWa+12UqzMzq5lV0N8dHzZDbZ+AxjZy7qvdk+DDnkBt0/eYv8c8J5jV9zw/CVc1JqKPUaNtHP4PrLdatUU0iMCQHw/fyX78aXAvtPpzyVD/cVeHBr3Vwx0c7BWE+XCZvrHV6OZGyh9/tOfrLEz/3PEGwjHfr1w+/v9NWxcv+wrPp773vdb9k2+Ls//SSGwoGPPDpA+rvu43vjyXkcC+1vT68kDcfKtQHzbRY+Hxbefzsd4tq/H8ytUFxRNtJPDanohV1dddz/C0/XnWatNROqZ5rfT4fN0NdHw+pzDbaGg337BRNGSd8GHDTXj53/nN58zDXzTyfrN24Q/8eKB/fH3yjwbo0+huSh72Gp/p/k1OYnGdzbTJUw3gMqm553X2P7/Fy6bY8u4XD5lIp2Gu3uDdDBRvM2d57T0WaLNwK5WXMjAz37g2/KMvXmsZzFscvnUVa40uS+RsYkY3E1OKPRPR6/nvc/VuOUxUfS8/9T7bykjmwdLOrJ/z78Xfcpqp+mreLx60ylF2Js9Uzeti4XprXeak3tlP/YB5Ntk35xfsYhQ3HaeqfmBdu3k7k+a4LG0TvWZdokflY/WLfdsioVfPdh72ht8SvXy3OUdlXTae6VR2ZiJueUxWtWQmpywOrIZGbTv3zG5695XXXJaobwv1A7DbtmKuamcfm6PuTIdJ5V3Kfr6dJcaznqG0miFTbc3oPF6D9uc5q6OAfx+ODDe2XCLNcd59jFdhTtu6idfyPG2JPKe7bi+nPbxS+zjnpXS7SMif596vugpz2tnZXa5HNFia8zCnuO6w93Te8DgcqWmsSefdl1xxSh/yr1NT688/YEJWkwOVj3na0wYeZqxM5795l9hDZtv5mKc8bahxXdEzzEd42p56DO9U4IST3RI5RekizoVtczBPZkHXQqd91T0K4AzasHieKAzCH/8SniuFXF3FwTwRosMfbVwYy3N6NznbdBeFucPieTxEI16SG9vE58olWvMwjz1wibi5Us0avHgndkgZA3OyRSv6CIdZoqHKyX1iYk6+X99CzFxzL9F2gdJmPROnwHaVyO24LTYx572mw8Y8iqgPIVOPcjvBjfaLkPTzQLExHzfMQLU+aDlHPkzK3SM25uOViRYGs3E/AanhzJn3jOu74HLgSDgOujkAeO79PQfM0pkWZiRoOXMUcsXKAXPVKYHgK9XhMFG0QYknF/Nwk3FNda66ZziLwUQPlBNm5UqLS/rJJDoYc5ucMNdANdWEcFpeSw5LSNiYDzOnBg6zx1CL25CEhI25iku2ExG6V6q4O+SGmRqEPVq/4mErYQVl4pFoJuYWYV/REdo9kzWfhsy4pVwxG8LeKqsqD1sJIdr0yBWzS93HjX7Oh4Ehx59d5YxZanC/qJZH9i7ueIMebJMXzy0kZi+HWNtD0MzFXC3gxWZ30kQMsGY+zyvg+0rSq2J51vOge9wo5CyETUSkffyD6AJoZmMW4EcQPXN3v9vvXeWJGXw1hI90xD0PN/Z4j7wwwy/jt4vC/aTbdMgPcxVZVRFlPEFUyNlBvOeJGf0UNQnftO6eI+jurvLFjPbc3g7CUd2mmxYnT9p14OTG9jv+MaMOXjm7s/Y00fcdvgBwr6P8eVbzQ7Ros03apECeobYD/IPimrTZUUTfBXsmosFtFtPxVo9CMM9XX7DFNovlzPpmRkVGmEkP8uVtur2TQJ9LhbV7McrJRbL87sntN7R412rTcdtWu59UphdtIau7I06Ia3IDbe71LqXq28RtYcltT3QvLaG2dnWarLes2fwJ7x+mdtrxNMl70QkKuxkFmNGZHXEj0za9KFJEkdFEcRwLlZ0nxyQUkWii1hYLRRsxDbSmmIyOcAImik1sG9BoiigymmJri/I4iigiOhBRLpLoaFxb/NditbI++l0cd3VOi/TIAbPSFMc6rMyJ6yoipfMxjzRlw2x65y9M/y7uWnumuWAeDr3rDdskejEfVM7w5iPK7kJk+ufWU353JjK2nmncdmri9PH/i57ybMKmn0lU3MaKOTpNDMxG/mg99XciinbPADETnTnjBTpeeyG5Xou2o0k/kUHyL7Tld/t3I5i2D8vIu67eUTfHRziQofY2AXnyql/SBL2kaxO2uDnpBDK1PQU5XdvxLW39nThj/nwapm0iojOn/nLaxXv9cBJJlranc4BUbZuFVv7vBumZoKe2ici0+QfFvYtTf5SlbWZMYL2S4qzG3F3gD2gusvNtJgfxL1g/q6+gQXM/3WlS4aXacyrkaXvuvfWI9Tuq1/ZOw+yZiOjpxQ7Hps3SD7gbwWTZrLGJqacQE8R9hcV0RqNtmVrI8KLGOl+Ma2B1s74Bl3W7QzL8ZPqA4mcuFngVXWFe1PkbzT4zYLps+bNi3A57wAu5pLDPSbjK/tJVjFSyunsNLmbuJ3qeu+aaM04moaGPCfdystpLxMXMhGzW3cUIV3fNOTKnYuYqu1+AGJ3PAWzpmGhwMXOV3XvTB3MLGKBz3JixuQ/ppewlvzIQ3Z40+8vn1u9ue51ve77tLuDfB8t0EdaZpE/S+abnGpfQRGfpzf5Na1mSAxtuPzoFrTklnf7adqgtptyYAgbo7FiQ8xEf6e60T637G+AFtEWnDWhybFQ6O+2gpyArGhmsMlx3XxFY20Ev+OOTsRX3+l86e7Dl9ZA1JgtpiBdPcd0NNubiMm12kux1TYk79zVM6Upz6IXOS6Yaz+U/DOpqzya0/+iSAmOeHLCi2Ji5xyProWusYR331MrzB5WO0q4ELxH9qbUJV8gIK9LRg4Urs1LDOu4JGr5UhLbndUISjRF3zSVQjTAXX14UKO664xGAdMs73wQsEf9ZXu0QnJ0XYMBaBNXTK24ikk7Sxnw+C27Qys3HOvEM+qJDoopGe27Jx4zOjXLsDz6dchKiE8/hSRjUjN1L/wTmou5RZYpbgw3areiTLtuE0qRAU34UrfqE1jasW0fycEMjPYSAY+6vozQIvzHbcMmMZYnHBakR2gCthTmWC89rNLeXE23SwTWtF7JEzAv02qECcuAZGVXhJ4HKgW05C3Mel5ZGbSL35N2B5z4Qc/I+k0ENyM1pHTAjX0sShCbawZHJGdlgA2wsLgbK7++E6+I6WVpBPn/R4Ff3fJ6lpqIuhEUrJ55nctVodpcs8TQ/2/5ihFbYN4n5PGOlPdGVVSM2UbExK/pOXEKLebfnifzBxOE89/CYsRFVFJNxzzXPeHdRi/CYW8XSEp6YKDxmcEoi0IlJAdpGV5zTSozBm5iNWdDcXGGgRQHaLqEQ0uVMPVe9tMycYS5lPbEuxZ7nSdvYT8POYU6iZyanues3FBfPNOvGfKlX8fKew75ShYOex15apmB9z2ffRxM/aTwX7coKSa9iTu6rjlqYWaiOisOM9BomJqLufv6IG0TRxya2vvIWE9GX6Cf7H1eJiEQEbqMeUbQbR7m5bHyZDu7aURep7QgcI0STyN4z7fCqvEL0N7+OyoSs2e/RfeY+eH2dp56vrpeSZqf6bYHebnmJB7pydUXPCDNRBEYtLjdYqCs/vVEi1XLK+6Cp5mExV1dmYc/FgBYNHujKpXhWPBNF4NBRv8iriSs30j/gUysBc8YJhr+5sVuc/V0p8jbE7qUV4GIE0ysbdL9Erj1ngT4ImGVpnWnTb8XpCVsJmPHem6van5fBdEm15BITy5crM7LnVOcd6D4vMX/306l5BmDqdSbP07cNA0MYl8C/07PiOeXW5mflGJFZAUaM1AlU5lLQ9yvZUXpS3SIuS9tTvjv8e+pcdU9GaTDPPZvkFHhqbs+0yd6dpjye8epe5/puXWzCbXMtyu7U3OcyXlaA5dkoK2YBSz6HV9PTosvMwxR4u7kPwlXewHrPCRhWzAKZlLi4sQKfFY/zUgUFTEqI+M/2jLtuXSrmJNGiA5ix4eO6d5HS7uSmhEleHpdZxq0U5LhN/iIEOk5yB0m67hrYuvM2XoG3m1tIj7luIOaBcjozwORlPmrZQ2bb+ZiTQLcRk3LvrBYYrnJ5Toh7BzIhN1xtjv7/Is6FbdMsnq3gijvxBATuXpZh8ZwQ96JCTMt1CwmgOMxdxeJ5dHYg/gkibi7RI88tYFlJh2aibfbhecKLDXAHBq6YMUf97JcVG/Bjg8M6iYF5ZMV/LdWgadR/WIAi9D43ARbQ0sqBNTlWDcGk7aZtsVOqQSdyTgxm02FjVuDkgJ2WjDz3IkTcB8qdZ1S3M+UsboxB9/gFLdyguRVaBVzIaocifsTLfYy4tbNBHwBSsX0XzBM5ennRagXquWNywCzQgZJ762odmn52yItnehaCmdszbWGk6MVgcQ+UJ+ZBueIepZ/hJ/tt8sQMSku4AFopSw5LSNiYFfrMghuhE56rFqiwA+WGOaFFARF3zcMIAj13h3y1DToV4/KctOKwY+7BnivmxBpr/1xiVpL8CILZCpnxrgrgGXJyIHyMICT/TB6peWD+FiHuhrvjDrqf0VVBmOnDEg16rAnhjjfog20Kw4w7Ys+/xt7zM96Zb6zcMY/ZHyJcGZ/fCd/bhKZDgTzTF+Gg2U5sTM6Du36z3SEfzAqcgHqmz34H3aZHwTzT4nZpBj3h4L0suqsAmMUXwTwrP8O/7wH68cS/kX72F+7GuJgvTkzsfnZgJh/+8b1fda88dU+YlbMj6O6BMKv9GVQZh7utXSErEGYafFJSsJr6h20n0Gb6rMEbsxiUo+XphgtuL6XsT29uhVslPZoCfefbF3IKGOvFPQd8ODmzePgNv7S79xfC8UwU7dBsLgd1D9Ie2Ax5zmDxzizsmYjUruYaswJjFvEnM2J6sMUC3d1K7e3KxpwaWwafFY+vlSqxLRbL6X8e9gyNeFx8apLKqFjcZUDOsB+235523Ide9e5fX/Dz29yJB6kZtvj6X3NG6P4+62+Cn5VaLNp7Z50TLNq9d3dLFYZZLM7IkQm1Zamxuu1sFYRqm0jQznZC33htZ74TcfrhH9LbyJjdO4+ES2rnQ/U9+MfpmVS39eq0hOPubuSWznrN/f/vL63PArU6aK9OtWxv9yIqHDNRZO7/VkSqWgDdgsjoTEsQpm16kRriNjqOhco8gzGahCKqxjjTO3w4mmund4hY9xpl8xBLlK0y0z5cotG2jklG15sRER1UQYiNblY81M1o1qaJSESRsTVhG/6NtTGWjtYUS9vMo7q4+TPtaxVMV89twpYFeJVrz0yd6hcv6BCLjZi30+u063dTVDcVNyfhQj4X6rq4SOp+zafGIdt4Zi6kt7YB8PvMJyfE5cHdyBlxk5t7cklewwRm9hsLri+Ex03Fzbe58ekcKhfhuiduE7ajBU5BztI299ZK701CXXxPFrX5B0u9i+y6SnGFjcy4uPJmt3chMhfZtWTpwnaUN7c1pqlw62d2n89lcF3BnpjZhC1eanAxM7fbfIUvpbhM85qwLSnuOQnXQfRvFlERc7MTBtFxg5iYudPqN0PyzaxjLu6Gi4u5s4vLxMXMVfa5Yk4B2M47L981mdvn3cdVzuRcJLmAHKL7DS5mrrZ6PwtccuajXtw+ssKehOqLxMXM9SHByUj4ezTC5ruN5Vav9KPZBCs7+5E+9hpsvls2uJi5PtssB7OkC3VjxjaG9FL2w3CaNSIzyRykr9iYuQsGvL1o++qnCCba2gVF+ohquUXFmbML0VnfKrZ/fkLOxIHldWDzeaEyObi92Y2PtvuAjMJgao1KqkXnvFTO/j5GYrm/oGLNmbz6PDCd9jjmcG+JCVXBGWhfEVrbX5aRTfOPTNzju3TPtK8BIKU/JOJTSKc0YWuwMZeWaRNNvAcDVkTu976ls9doQTDni5Y7VM0tUPnYcw/ifTo4i5489KooNmZuoIKeaEOIVq4RQbrOALmMQg42/l8NNmbuIh6sI5bZRYariqO0Z/StxRgq7hXHnZKO5UUDosYedAelH2aujvoQaTPbl7NzMe0QnN21vUbzeK24HQFIN9OB0ExMaXtEK1ZAkEUsNi/Z3gYXGhUXr32EWZUqxRg+nXIqUZ14BiVh7ON831SMg5k7NuYeFThSjQ29zsZcrrQNfsijaNUnuLYxJyRtDztlnjAIOGZMEjZw+P6Ca5+xdTbmcmuqQRGWJFysxoVn9oeJcDFeoQVxhJldR0LKyO1C1KP5LsyJZ8h3ELvFBAnlwLYs25w7xQxbc/CxDjwjbs3RfTea2XzUNf9MvORzEtMpcHB2OlnAntsClfaxU4eshIm5RLdtvF+c4WxOD88z4IGKeK8ovZIbz1yOABR1VZHOQrExl3gutF9cFUmGT4osQBGZy9otkGThwnN5xfNBr0jMWuDZqwQb8+9UgUYq+MULH7MOxlysolSJVjoXKRgR1djvFFbLgjz4tGjHoeaOZ19li1lqO4ym7udFbyq/HJDsu7BBmLt3VdGSFXOm7UG7vCwAiDmokuyKOYLs4Lf9023zSUhrdoW35+J5Nu2I5uoqwZ67e/MFmapFO5f4TqToyeJ5sDNnwi4+94z3BT1RmE3cnkPEhWI27XguIReH2cRxcQe784Y5JqLYxKLsRzYcqpE8t2p0XVUvEJlYk9GxzgXC9dOcDloR2d9w9boe5/Ecy+bl0e7UYxPvipL4K2yeqh3wZM+oiOpr3TIMtcCorm2YM7q/1SMqGnSxUpI2yJfTTU401+MTDDlb26ae3QpNLG20d9UJRZzNs5GXrf+uyev4M4+QdQZm08/rxVFvFLSk4v1jOuZ4ObcXmlhbLYTlKYdtysFsmuuMf1pPb1Kn51rYRCYdc/8y618XIO8y0p1Ue15mNvkTaw1dsLCL0HYaZs3vUFpfOXEsp9qzS5MssYokOsqwv8Lt2Tg1+atc1bA1Rv71l5O0pzE7viknYOou60zFqEnMzo04mrroReqCtW2WXWeQVzBryj4FjwvWtsfbRHKlWJoFmOfeBGbj83BQs2BrNsXy7NUwSk5kJj682HLOGlo5Y5g9n0qvh+cSisri2ahxzJ4No8LjVbln/2P9w3ybaS+ZQF5UeU7MjGP2fjVQrJ4cmuMxzAGvBtZ1YdaMTkrGMQd00x5/w06DaUY+Am06ScxBrxIFEa3yTRBpzqjnDESjQBOsgTMxOcq0g8YJKKTzb9Ps4fAOVAJz4Hv7olZclY90Yr0kz4HvsPuHq/KfRZDhgWqYl2hPXhiJ6yLOhW0nMIc3EvIUN4dm3PGQSfIc3nmkQM+Nw9xVI8yA93yf86uuOP9KtFGYOwmeES14vTALV7sBRIAhZsTjQ7WCMmRg9Dt82WDYS+sNwICJHskGLA4Bykr2p89JAkP0SnFEx0BpDzFjmupERZkzCvPwtTYJSUiGxVVxfm8RIu4DleB5HSNuH4OmEg26l8g9+6CVORs0P9eu4cz5EDOqm2OzOKIPAF5xP4l5HaVARYVdMW4IieTEGTP/9wJwKNZJYO7DyFBuvLiUzuEHRMdv5koCvLWPz4uLEHc3cWYAis6TxGmktCn8xHf0nr2EfmUt+bUKtOeubQd6bZXAjEwdVtyILlHcia6iEmnOBSXbEC9m9pKYkXw0qThxm62Qf5140V4WSF3eZrpG85Djz+SRmkS67YJON1JqGP/gTEQS1LUzdVkaac5EdM8b9EHS6UvCNj5ShRLtXVGOtfxGv/9cIxeLLstaxvv+SPBnAVShFj341O/f3RnPnMCrklQo0c+G5iNFYFa6WNftlXVPdISRkO6s2c44xoXnw6zZw43d11Qoz1NI9MyJnurfj8Y8dVSCVvezzkRP9UeRomCeM9XtObG4r10hTy5JFtmLsRh1bzkNaNp5seUkpN2LTphTGqTAMdfQxX6Kuh382L2UzouyjCaIaHXvsAfspjWblKYEzOhXpKI2c0CT2nkR3gkj1R0bsLwNz491t3qM/PikyHuRc05k2qya4KTIWyzuMiCLkjBnHeCA5S26t3NQd29nbbNsUVkX2KYX27HdljNrGKlLwwy2aaHu7tkgZz/dUi0PMpkY21Kndv/eWuprlma3HUXsc42CYtVI31CuRbSTJvB4x95ds0yeD7mGUh0NtpoTVMdxO6dBmLjBDzY8JxST2c19VszpiQQTa9s/MDqKhvPFJtaWX8YkIkUDNubBHpHRca5JVltEdIfaENONjrYnNta2ZTFRRKSNdS9jsUoRER1U3ewn4vVMu0yv/EtXR+GAR/8/inejnJ9a12V6zcjTnkW9bmyzH09xmehOt6cQgI8mTjny4FpHbzUK8mGiTrssCi8f3PaOval/zJ04hWMVGqvqF3nurPK6X5qdaT31ZuwF+dLYgJVvX/AoEsQP6VFWwB8rTtde2nU+6xPR6bH/TP7XmR/Wds84jtf74fh7UMY3J4mYrYYqr8cokod76tocRF9UqDyMe9hgfu44cJ6bilbcQDeBuWed+ebclxvKSdi5P1m66CAd0VTIfFtwO2m9EqOEPfzRJTbTehVcS7LP0n6uUcIeguY2jTCpvVOC7mPUmUx/uWlQwh7KmzexXkrdQ/k4JD3k9t2pXAWyzJ+4qYqon7nv9Fc4REfgibN6SEsVhJntTl6rQSGTuJj7k/6lLJGE3sfgupOLeZvjmK/l+rHsZ/2CMXNfqqquwIyZF3H6mQMGn4ex2yD+1OCUzTCrXrb4w58zYAdLUEM5nlkZS5YIOPdkq7uBpDnHd9t8s6TtYKK5OajFjXmpTVxwyzlHmMMVx413lRWYA8sTad3+z3rFGlbyugSlebwRDDNOHWJ+HI65wgx4lTegNI83RUlCruTIA/EeGLcJzUMozZkKy+n4JA9bs4RaNNMpZHyw0T//Tbfbfp4bgLxOvR6SgQakCKnJQd5ju6D7klyiU123Ak+c986rBHX65h6ZXILSnE70aj7mAwTmiEs0lmaipelMW+VjHiAwC677f4PAl3ZOYyVRePbpEq76GintlHBlVhmYxU6pXuwaVNrT4v7ScHjGXFxxGyzNU+4zfw8loVrPNcCCYF/GIdU+xox5PaGivMQdHikreYEhVdsQJ+b30WKBtqoGE/NeARqz8KKhNI8n3ZxFSCKiZyCpWIVrqOiPDiQfq/2Si5k+g8zNPupGpyXKxYMNMYNaz0XuvGDc58igWfdyD3l+FjI1Oy25CTXn5HEJK92QTu4HdMVYmhPOWjtg3i7VoKkwg1Z8zOI+ZGrundkFXRT4Bh8zSNzsp3VXoOY88oq8c+shZlFuKtZCR2inyHHk6HZKxfwQ68KILrjUOUeYFyFEc01k+CClgmF2Cj9HmDFpyYy/WS/cMNPf4LZ7Zil333GVmBDNPSxBO7FDM1GOmDGnYtyrr8GWUKPMO0MWNdbQpaw15VbgTYyIfx88YYH/p0wnpgj7qVSX3mIJzN8qOtmXcMdM/wSYl7vdF8CBTTT4cycxI8LVLLWiPDCbz8oLVgIP2PhgFo/DWfI4H8Jcxo9nhOvmYingfVy2dMYxf7tdlu0ZBUfc88M8/GhGGZtdA7s7oT15psHnJ/fYQHliFv9WFmZ4Dy/li5nUh6oczAIdrfjP9k1VvIv/fFJTT2+eSRyUs8LqzCCnnGyYj0rJH+G3TkQAZhIf0nf7SjvBGnx2EpEE8Uzi2w+fOJ5JYE67TxLPROJe8aDVfPFMpL748AnTNhGJxU/Uk4aZxOB/flcxZ6dDovaRXFp/ongmIjHYufNk8UxEotamyvqThZkoium3JBvVV/UJiLuw8saQaNAFTZJ7ovlvuaE9Oj4d5bRgqjTAkO/nYY5l87LjmBH/70UE718cyrPpn9sAC3Uq6OfChu+JtvltI9cuFA15CHteeDb9N6kMyIeucj5ykrf8VKV97DyiElFnadvon4ENSYR5vhIw98+Vpeuya0uToW1z1ttfm54njaIso87w232wv+YpNyqH/wzMa1SqLVvhmVLsufdWSF2R4voiJlelBGqThtms6aAhQy41I57767MwZqZ3LwbzV2HZ1/QDBG690NR0poBF3FVTmONGqLmE1b9iBjyfRSs7VK1oe9ZTmHuvBg7ZC80pp5w8WNu9ScxmRpHZNkJcMM/9OVC2KPrQYBxzL7hiTnxO27taioo0aKMmMKOVDRFHrVCeAd8UHY+mAuEEwDxPPNe7HD7k2IeWvbOqArOx7jhmuQ7ZRrS3xz4CrMcxf4kZEkGXKtJxJzD3rgHG64Q67RSid4F4B50xzEs0R5cqMPuUWMeRrKoE0gaB4TmBuYdIwQzK+SZd/iIQc5zkGZNpd4ugGem4RRIzIlAhVSiK0bZOYkYEKhp0wvORFNPAZZ+DvQRmVtMaJxcGJBp3PBSrBGaIB0u6MGT6OICNFCdjFeb2FPQli9GuibuoMTsJzAZDs0Z6bYHPSg5tT0IDy15BldEiCnMyD8O8HbGjoMFZwSN0O4EZ5G/h70yN+55wmnsJzJiEBP6tenRpNfQ3EpeQ0ECBzXk0yuIecIESuMQuOtcWYIPuJWpJjDmbPaK5NuijBUoi1En+gSgoUqHqyf3kmQHmhETj2R3tnQEQ3UlinvdIRURiF0eKhCWe+9DEc2qgcHHfV0me0V5GFUF0KOZRMSCJ3XaLaS0FGfQwbwzA3ElihriwfYWX9rjn3gYcFxxhhkRnU/iDi4H33hPZgyRMCwnTKRpz4KlYrJOYIQ3ud1UhLixpJuZ2yEh3VRJzBbC2QVF5pwKdHCTqH5KY/KmrqPgrJFwlvT4mPo9ZM7YXWvI/7niDPuiNYUacbO9TKVfN24LGNgvCs/m8HMze4Wq8zJUkwrPttspyO+DrWc+D7nGPj/jWYmFOe5povyY5Ex4Woe22otJA+2yv6dIE5uBsu1to4Tyxn/c9QO/3JjGHkmTaVOLlcXYwmEyLw7V9UG7T7WediZ7iRLI/DZklnN/ZsogCiL6vw5QdzrPZLtiBTW2h2HICPZguu0O/515Koj1xeKADFxh4Q/J+J8/RFqFus8r+8b+kmFqYtruf0wwuscNmOjWOBmE2bTULzBS1maAHqQuUAYeeg0/KCFNpqzY8P7bzaeoCZQjLEc3qWtxiVVPpMgzAvNOZGWQSi/n52GAnw/K8/fb+3UjRDEF32027997Zy1qfL8/d7Yhme9V2YqvhZUL2xGy6W4qbNxXGdLS1Z1mgJaRUxE+YczwaDbi79ehM5lJOo8E9yvqL0w//IFKnM+272Qv0suduvDtrXR/tr9qpr06vpdvtWF1N1RV0HHd7cwKZiKLBVnPCl8ZxO+c5aj5koymmNkXlvH/Pp7q7r8UqRRQZTbHZTXQny7r+A2LllqdD9dBPAAAAAElFTkSuQmCC);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171B; --bg-alt:#101317; --card:#1A1E24; --panel:#1B1F25; --band:#232932;
+    --fg:#F1F2F4; --muted:#A3AEBF; --faint:#8B97A8; --line:#2E343D;
+    --or:#F5843F; --or-l:#F79A55; --sand:#E09550; --on-or:#101215;
+    --navy:#0B4F8F; --on-navy:#FFFFFF;
+    --cream-bg:#332318; --cream-fg:#F6E4D2;
+    --sky-bg:#16263A; --sky-fg:#E7EDF6;
+    --ph-bg:#4A2F14; --ph-fg:#FFC58A; --focus:#7FB2F0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171B; --bg-alt:#101317; --card:#1A1E24; --panel:#1B1F25; --band:#232932;
+  --fg:#F1F2F4; --muted:#A3AEBF; --faint:#8B97A8; --line:#2E343D;
+  --or:#F5843F; --or-l:#F79A55; --sand:#E09550; --on-or:#101215;
+  --navy:#0B4F8F; --on-navy:#FFFFFF;
+  --cream-bg:#332318; --cream-fg:#F6E4D2;
+  --sky-bg:#16263A; --sky-fg:#E7EDF6;
+  --ph-bg:#4A2F14; --ph-fg:#FFC58A; --focus:#7FB2F0;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:Arial,"Helvetica Neue",Helvetica,"Liberation Sans",sans-serif;
+  font-size:16px; line-height:1.55;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 24px}
+a{color:var(--navy); text-decoration-thickness:1px; text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+
+/* ── шапка ── */
+.hero{position:relative; background:var(--or); color:var(--on-or); overflow:hidden}
+.hero .pattern{
+  position:absolute; inset:0 0 0 auto; width:34%; max-width:340px; z-index:1;
+  background-image:var(--pat); background-size:cover; background-position:center top; opacity:.96;
+}
+.hero-in{position:relative; z-index:2; max-width:1000px; margin:0 auto; padding:34px 24px 40px}
+.hero .date{font-size:12px; font-weight:bold; letter-spacing:.14em; text-transform:uppercase; margin:0}
+.hero h1{
+  margin:14px 0 0; font-size:clamp(34px,6.4vw,60px); line-height:1.03;
+  letter-spacing:-.02em; text-wrap:balance; max-width:15em;
+}
+.hero .sub{font-size:clamp(15px,2.2vw,18px); line-height:1.45; max-width:34em; margin:16px 0 0}
+.cta{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px}
+.btn{
+  display:inline-block; padding:11px 18px; border-radius:8px; font-weight:bold;
+  text-decoration:none; border:1px solid transparent; cursor:pointer; font-size:15px; font-family:inherit;
+}
+.btn-main{background:#FFFFFF; color:#B14400; border-color:#FFFFFF}
+.btn-main:hover{background:#FFF3E9}
+.btn-ghost{background:transparent; color:var(--on-or); border-color:currentColor}
+.btn-ghost:hover{background:rgba(0,0,0,.10)}
+
+/* ── навигация ── */
+nav.toc{background:var(--band); border-bottom:1px solid var(--line); padding:13px 0}
+nav.toc ol{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:7px}
+nav.toc a{
+  display:inline-block; color:var(--fg); text-decoration:none; font-size:14px;
+  border:1px solid var(--line); border-radius:999px; padding:5px 12px; background:var(--bg);
+}
+nav.toc a:hover{background:var(--or); border-color:var(--or); color:#FFFFFF}
+
+section{padding:40px 0; border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:none}
+.kicker{font-size:12px; font-weight:bold; letter-spacing:.13em; text-transform:uppercase; color:var(--or); margin:0 0 7px}
+h2{font-size:clamp(23px,3.4vw,30px); margin:0; line-height:1.15; letter-spacing:-.01em; text-wrap:balance}
+.rule{width:88px; height:3px; background:var(--or-l); margin:12px 0 16px}
+h3{font-size:19px; margin:26px 0 8px}
+h4{font-size:13px; margin:20px 0 6px; text-transform:uppercase; letter-spacing:.09em; color:var(--or)}
+p{margin:0 0 12px}
+.lede{color:var(--muted); margin:0 0 18px; max-width:70ch; font-size:17px}
+ul,ol{margin:0 0 12px; padding-left:22px}
+li{margin:0 0 6px}
+.meta{font-size:13.5px; color:var(--faint)}
+
+table{width:100%; border-collapse:collapse; margin:14px 0; font-size:15.5px}
+th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top}
+th{background:var(--panel); font-size:12.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted)}
+td.t{white-space:nowrap; color:var(--or); font-weight:bold; font-variant-numeric:tabular-nums}
+
+.card{background:var(--card); border:1px solid var(--line); border-top:4px solid var(--or); border-radius:4px; padding:16px 18px; margin:16px 0}
+.case{scroll-margin-top:14px}
+.case-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.pill{display:inline-block; background:var(--cream-bg); color:var(--cream-fg); padding:4px 11px; border-radius:999px; font-size:13px; font-weight:bold; white-space:nowrap}
+.pill-navy{background:var(--sky-bg); color:var(--sky-fg)}
+
+.promptbox{background:var(--panel); border:1px solid var(--line); border-left:5px solid var(--or); border-radius:0 8px 8px 0; margin:14px 0}
+.promptbox .bar{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  padding:9px 13px; border-bottom:1px solid var(--line);
+  font-size:12.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted);
+}
+.promptbox pre{
+  margin:0; padding:14px; overflow-x:auto; white-space:pre-wrap; word-break:break-word;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  font-size:14.5px; line-height:1.55;
+}
+.copy{background:var(--navy); color:var(--on-navy); border:1px solid var(--navy); padding:7px 14px; border-radius:6px; font-size:13px; font-weight:bold; cursor:pointer; font-family:inherit; white-space:nowrap}
+.copy:hover{filter:brightness(1.15)}
+.copy.done{background:var(--or); border-color:var(--or); color:#FFFFFF}
+mark.ph{background:var(--ph-bg); color:var(--ph-fg); padding:0 4px; border-radius:3px; font-weight:bold}
+
+details{background:var(--bg-alt); border:1px solid var(--line); border-radius:8px; padding:12px 15px; margin:14px 0}
+details summary{cursor:pointer; font-weight:bold; color:var(--or)}
+details[open] summary{margin-bottom:10px}
+
+.files{list-style:none; padding:0; margin:12px 0}
+.files li{margin:0 0 9px; padding-left:20px; position:relative}
+.files li::before{content:"↓"; position:absolute; left:0; color:var(--or); font-weight:bold}
+.files a{font-weight:bold}
+.files .meta{display:block}
+
+.note{border-left:5px solid var(--or); background:var(--cream-bg); color:var(--cream-fg); padding:13px 16px; border-radius:0 8px 8px 0; margin:18px 0}
+.note.sky{border-left-color:var(--navy); background:var(--sky-bg); color:var(--sky-fg)}
+.note p:last-child{margin-bottom:0}
+
+.step{margin:18px 0 0; padding-top:14px; border-top:1px dashed var(--line)}
+.step:first-of-type{border-top:none; padding-top:0}
+.step h4{display:flex; align-items:baseline; gap:8px; margin:0 0 6px}
+.step h4 b{color:var(--or); font-size:15px; letter-spacing:0; text-transform:none}
+.out{font-size:13.5px; color:var(--muted); margin:6px 0 0}
+.out b{color:var(--fg)}
+.grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); margin-top:18px}
+
+footer{background:var(--band); padding:30px 0; font-size:14.5px; color:var(--muted)}
+footer .brand{font-weight:bold; color:var(--or); letter-spacing:.08em; text-transform:uppercase; font-size:13px}
+.themebtn{background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:6px; padding:6px 12px; font-size:13px; cursor:pointer; font-family:inherit}
+.themebtn:hover{border-color:var(--or); color:var(--or)}
+
+@media (max-width:640px){
+  .wrap,.hero-in{padding-left:16px; padding-right:16px}
+  .hero .pattern{width:42%; opacity:.8}
+  .hero h1{max-width:9em}
+  section{padding:32px 0}
+}
+@media print{
+  .hero{background:#fff; color:#000} .hero .pattern{display:none} .btn{display:none}
+  nav.toc,.copy,.themebtn{display:none}
+  details{border:none} details[open] summary{display:none}
+  body{font-size:11.5pt}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="pattern" aria-hidden="true"></div>
+  <div class="hero-in">
+    <p class="date">Дамате · второй практикум · 9 октября</p>
+    <h1>Практикум: работа с ИИ на смарт-платформе</h1>
+    <p class="sub">Четыре блока за день. Все материалы для заданий лежат на этой странице — скачиваете файлы, копируете запрос одной кнопкой, подставляете своё. Ничего выгружать из рабочих систем не нужно.</p>
+    <div class="cta">
+      <a class="btn btn-main" href="https://smart-platform.tech/auth" target="_blank" rel="noopener">Открыть смарт-платформу</a>
+      <a class="btn btn-ghost" href="#blocks">Как устроен день</a>
+      <a class="btn btn-ghost" href="#cases">Сразу к заданиям</a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Содержание">
+  <div class="wrap">
+    <ol>
+      <li><a href="#blocks">Как устроен день</a></li>
+      <li><a href="#start">Перед началом</a></li>
+      <li><a href="#case1">1. Планёрки</a></li>
+      <li><a href="#case2">2. Договор</a></li>
+      <li><a href="#case3">3. Почта</a></li>
+      <li><a href="#case4">4. Цифры</a></li>
+      <li><a href="#case5">5. Регламенты</a></li>
+      <li><a href="#case6">Проверь за ИИ</a></li>
+      <li><a href="#agents">Как устроен агент</a></li>
+      <li><a href="#tricks">Приёмы</a></li>
+      <li><a href="#data">Правила по данным</a></li>
+      <li><a href="#takeaway">Что уносите</a></li>
+      <li><a href="#glossary">Словарь</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main>
+
+<section id="blocks">
+  <div class="wrap">
+    <p class="kicker">Программа</p>
+    <h2>Как устроен день</h2>
+    <div class="rule"></div>
+    <p class="lede">Четыре задания по три шага. Каждый шаг — отдельный запрос: платформа отдаёт один готовый файл за раз, поэтому разбор и оформление разнесены. Последний шаг каждого задания всегда даёт файл, который вы уносите.</p>
+    <table>
+      <thead><tr><th>Время</th><th>Что делаем</th><th>Что остаётся у вас</th></tr></thead>
+      <tbody>
+        <tr><td class="t">30 мин</td><td>Вход на платформу, знакомство с окном, разминочный запрос под свою повторяющуюся работу</td><td>свой запрос-заготовка</td></tr>
+        <tr><td class="t">50 мин</td><td><a href="#case1">Задание 1. Три планёрки подряд</a></td><td>протокол и таблица задач файлом</td></tr>
+        <tr><td class="t">50 мин</td><td><a href="#case2">Задание 2. Две версии договора</a></td><td>протокол разногласий файлом</td></tr>
+        <tr><td class="t">50 мин</td><td><a href="#case3">Задание 3. Почта за день</a></td><td>сводка дня и черновики ответов файлом</td></tr>
+        <tr><td class="t">60 мин</td><td><strong>На выбор:</strong> <a href="#case4">задание 4, три файла, которые не сходятся</a> — или <a href="#case5">задание 5, пять документов, которые спорят</a></td><td>сведённые данные или справка по регламентам, файлом</td></tr>
+        <tr><td class="t">20 мин</td><td><a href="#agents">Как устроен агент</a> — показываем изнутри, что стоит за ответами</td><td>понимание, почему ответ приходит в нужном виде</td></tr>
+        <tr><td class="t">—</td><td><a href="#case6">Запасное задание «Проверь за ИИ»</a> для тех, кто прошёл раньше</td><td>правило проверки, которое работает каждый день</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <p><strong>Задания идут на учебных файлах.</strong> Они собраны похожими на ваши рабочие, но обезличены. Так все стартуют одновременно и никто не тратит полчаса на выгрузку из своей системы.</p>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <p class="kicker">Подготовка</p>
+    <h2>Перед началом</h2>
+    <div class="rule"></div>
+    <ol>
+      <li>Открываете <a href="https://smart-platform.tech/auth" target="_blank" rel="noopener">smart-platform.tech/auth</a> и <strong>регистрируетесь сами</strong> по рабочей почте. Заявку подтвердят здесь же, в зале — это занимает пару минут, заранее ничего делать не нужно.</li>
+      <li>Выбираете агента <strong>«Дамате Практикум»</strong> и открываете новый чат.</li>
+      <li><strong>Каждое задание — отдельный чат.</strong> Иначе агент начнёт путать файлы и контексты между задачами.</li>
+      <li>Скачиваете файлы задания с этой страницы и прикладываете их в чат.</li>
+      <li>Копируете запрос кнопкой, подставляете своё вместо <mark class="ph">выделенного</mark> и отправляете.</li>
+    </ol>
+    <div class="note">
+      <p><strong>Шаги идут по очереди, в одном чате.</strong> Не отправляйте второй запрос, пока не пришёл ответ на первый: агент опирается на то, что уже разобрал выше. Файлы прикладываются один раз, в первом шаге.</p>
+    </div>
+    <div class="note">
+      <p><strong>Генерация занимает время.</strong> Замеряли 29 сентября: один шаг идёт от полутора до пяти с половиной минут, всё задание — от шести минут (планёрки) до пятнадцати (цифры). Это нормально, окно закрывать не надо. Учтите и другое: первые полминуты-минуту платформа никак не показывает, что запрос принят — не нажимайте отправку второй раз, ответ придёт. Пока считает, читайте, что должно получиться, и готовьте следующий шаг.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cases">
+  <div class="wrap">
+    <p class="kicker">Практика</p>
+    <h2>Задания</h2>
+    <div class="rule"></div>
+    <p class="lede">Первые три задания проходят все. Четвёртое и пятое — на выбор: цифры или документы, что ближе к вашей работе. Шестое запасное, для тех, кто успел. Файлы и запросы для всех лежат здесь же.</p>
+  </div>
+</section>
+
+<section id="case1" class="case">
+  <div class="wrap">
+    <p class="kicker">Задание 1 · 50 минут</p>
+    <div class="case-head">
+      <h2>Три планёрки подряд</h2>
+      <span class="pill">для всех</span>
+    </div>
+    <div class="rule"></div>
+    <p class="lede">Самый частый запрос из интервью с отделами: протокол, задачи, контроль исполнения. Смысл задания не в протоколе одной встречи, а в том, чтобы увидеть динамику — что обещали и что из этого не сделали.</p>
+
+    <h4>Что даём</h4>
+    <ul class="files">
+      <li><a href="files/case1-planerka-1.txt" download>Планёрка 15 сентября — расшифровка</a><span class="meta">txt, коммерческий отдел, 7 участников</span></li>
+      <li><a href="files/case1-planerka-2.txt" download>Планёрка 22 сентября — расшифровка</a><span class="meta">txt, та же команда, неделю спустя</span></li>
+      <li><a href="files/case1-planerka-3.txt" download>Планёрка 29 сентября — расшифровка</a><span class="meta">txt, итоги месяца</span></li>
+    </ul>
+
+    <div class="step">
+      <h4><b>Шаг 1</b> Разбираем встречи</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Приложите три файла и вставьте это</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Приложены расшифровки трёх планёрок одной команды за три недели подряд.
+
+Дай в ответе, без файлов:
+1. Протокол каждой встречи — по пять строк: о чём говорили, что решили.
+2. Сводную таблицу задач: задача, ответственный, срок, статус на последней встрече.
+
+Не придумывай того, чего нет в расшифровках. Если ответственный или срок не назван — так и напиши: «не назван».</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> в таблице нет выдуманных фамилий и дат, вместо них честные пометки «не назван».</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 2</b> Ищем хвосты</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом, файлы прикладывать не нужно</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Теперь по тем же трём расшифровкам:
+
+1. Что обещали на первой или второй планёрке и к третьей так и не сделали. По каждому пункту — кто обещал, к какому сроку, чем кончилось.
+2. Какие задачи остались без ответственного или без срока вообще.
+3. Какие вопросы поднимались и остались без ответа.
+
+Если одна и та же задача называется на встречах по-разному, объедини её в одну строку и покажи все формулировки.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> сорванных обещаний должно найтись несколько, не одно. Задачи-сироты и повторяющиеся без ответа вопросы там тоже есть.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 3</b> Собираем документ</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом — на выходе файл</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Собери всё разобранное в один документ для руководителя отдела, в формате pdf.
+
+Структура: протоколы трёх встреч, сводная таблица задач, отдельный раздел «сорванные сроки», отдельный — «вопросы без ответа», в конце три строки о том, на что руководителю стоит обратить внимание в первую очередь.
+
+Назови файл «Планёрки_сентябрь».</pre>
+      </div>
+      <p class="out"><b>На выходе:</b> один файл, который можно отправить руководителю без правок.</p>
+    </div>
+  </div>
+</section>
+
+<section id="case2" class="case">
+  <div class="wrap">
+    <p class="kicker">Задание 2 · 50 минут</p>
+    <div class="case-head">
+      <h2>Две версии договора</h2>
+      <span class="pill">юристы, закупки</span>
+    </div>
+    <div class="rule"></div>
+    <p class="lede">Контрагент присылает свою редакцию, и надо понять, что он поменял и чем это грозит. Правки внесены без выделения — глазами разницу быстро не поймаешь.</p>
+
+    <h4>Что даём</h4>
+    <ul class="files">
+      <li><a href="files/case2-dogovor-nash.docx" download>Договор поставки № ДП-2026/147 — наша редакция</a><span class="meta">docx, 11 разделов</span></li>
+      <li><a href="files/case2-dogovor-kontragent.docx" download>Тот же договор — редакция контрагента</a><span class="meta">docx, правки внесены без выделения</span></li>
+      <li><a href="files/case2-reglament.pdf" download>Регламент договорной работы РГ-ДР-07, выдержка</a><span class="meta">pdf, предельные значения и обязательные условия</span></li>
+    </ul>
+
+    <div class="step">
+      <h4><b>Шаг 1</b> Находим правки</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Приложите три файла и вставьте это</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Приложены две версии одного договора поставки — наша и присланная контрагентом, — и выдержка из внутреннего регламента.
+
+Дай в ответе таблицу всех изменений: пункт, было, стало, в чью пользу играет.
+
+Отдельной строкой отметь пункты, которые в редакции контрагента исчезли целиком, — их легко пропустить.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> удалённые пункты найдены. Изменённых абзацев мало — смотреть надо и на то, чего не стало.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 2</b> Сверяем с регламентом</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Теперь сверь каждое изменение с регламентом.
+
+1. Что прямо нарушает предельные значения или обязательные условия — с указанием пункта регламента.
+2. Что регламент не нарушает, но невыгодно нам: это предмет торга, а не эскалации.
+3. Где формулировка допускает двойное чтение. Не выбирай удобное толкование, скажи об этом прямо.
+4. Под каждый вывод приведи точную цитату из документа. Если цитаты нет — убери вывод.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> нарушение регламента и просто невыгодное условие разведены — это разные действия менеджера.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 3</b> Оформляем протокол разногласий</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом — на выходе файл</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Собери протокол разногласий одним документом в формате pdf.
+
+Структура: таблица «пункт — наша редакция — редакция контрагента — уровень риска — наше предложение», отдельный список того, что требует эскалации и не согласуется на месте, и три вопроса контрагенту.
+
+Уровень риска ставь каждому пункту: высокий, средний, низкий. Назови файл «Протокол_разногласий_ДП-2026-147».</pre>
+      </div>
+      <p class="out"><b>На выходе:</b> документ, с которым можно идти к юристу или садиться за переговоры.</p>
+    </div>
+  </div>
+</section>
+
+<section id="case3" class="case">
+  <div class="wrap">
+    <p class="kicker">Задание 3 · 50 минут</p>
+    <div class="case-head">
+      <h2>Почта за день</h2>
+      <span class="pill">закупки, логистика</span>
+    </div>
+    <div class="rule"></div>
+    <p class="lede">Когда в день приходит несколько сотен писем, вопрос не «о чём письмо», а «что из этого требует меня сегодня». Разбираем подборку за один рабочий день.</p>
+
+    <h4>Что даём</h4>
+    <ul class="files">
+      <li><a href="files/case3-pochta-den.docx" download>Входящие за 6 октября</a><span class="meta">docx, 22 письма подряд</span></li>
+      <li><a href="files/case3-reglament-srokov.pdf" download>Регламент сроков реакции РГ-КМ-03</a><span class="meta">pdf, сроки по типам обращений</span></li>
+    </ul>
+
+    <div class="step">
+      <h4><b>Шаг 1</b> Расставляем приоритеты</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Приложите оба файла и вставьте это</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Приложена подборка писем из рабочей почты за один день и регламент сроков реакции.
+
+Дай в ответе таблицу: тема, от кого, чего хотят, срок по регламенту, приоритет.
+
+Приоритет ставь по срокам и последствиям, а не по тону письма: пометка «срочно» в теме и заглавные буквы приоритет не повышают. Наверху должно оказаться то, бездействие по чему ударит уже завтра.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> самое срочное письмо дня может быть написано совершенно спокойно — и наоборот.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 2</b> Ищем подвохи</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Теперь по той же подборке:
+
+1. Есть ли письма, которые противоречат друг другу. Если один отправитель за день написал разное — скажи, что считать действующим и почему.
+2. Какие письма можно не читать вообще и почему.
+3. По каким письмам срок реакции истекает сегодня.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> противоречие за день там есть, и оно меняет план отгрузок.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 3</b> Собираем сводку и ответы</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом — на выходе файл</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Собери одним документом в формате pdf: сводку дня на половину страницы — что произошло и что требует моего решения сегодня, затем таблицу приоритетов, затем черновики ответов на три самых срочных письма.
+
+Черновики пиши коротко и по делу, без вступлений и извинений, так чтобы их можно было отправить, поправив одну-две фразы. Назови файл «Почта_6_октября».</pre>
+      </div>
+      <p class="out"><b>На выходе:</b> документ, который читается быстрее, чем сами письма.</p>
+    </div>
+  </div>
+</section>
+
+<section id="case4" class="case">
+  <div class="wrap">
+    <p class="kicker">Задание 4 · 60 минут · на выбор с заданием 5</p>
+    <div class="case-head">
+      <h2>Три файла, которые не сходятся</h2>
+      <span class="pill">коммерция, экономика</span>
+      <span class="pill pill-navy">агент «Дамате Практикум»</span>
+    </div>
+    <div class="rule"></div>
+    <p class="lede">Продажи в одном файле, цены рынка в другом, себестоимость в третьем, и справочники везде свои. Обычно сведение занимает дни. Смотрим, сколько занимает здесь — и где верить нельзя.</p>
+
+    <h4>Что даём</h4>
+    <ul class="files">
+      <li><a href="files/case4-prodazhi-po-setyam.xlsx" download>Продажи по сетям за 12 месяцев</a><span class="meta">xlsx, 5 сетей × 3 позиции, свой справочник</span></li>
+      <li><a href="files/case4-ceny-rynka.xlsx" download>Мониторинг цен рынка</a><span class="meta">xlsx, по видам мяса и по сетям — справочник другой</span></li>
+      <li><a href="files/case4-sebestoimost.csv" download>Калькуляция себестоимости</a><span class="meta">csv, по кварталам, производственная номенклатура</span></li>
+    </ul>
+
+    <div class="note sky">
+      <p><strong>Себестоимость даём в csv, и это осознанно.</strong> Тот же файл в xlsx платформа сейчас не принимает — на карточке появляется «Ошибка» без объяснения, а кнопка отправки перестаёт нажиматься. Проверено 29 сентября, отдано в доработку. В csv те же цифры и всё задание проходит целиком. Если у вас всё же не отправляется запрос — посмотрите на карточки приложенных файлов: скорее всего, одна из них с ошибкой, удалите её и приложите файл заново.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 1</b> Сводим справочники</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Приложите три файла и вставьте это</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Приложены три файла: продажи по сетям, мониторинг цен рынка и калькуляция себестоимости. Наименования сетей и позиций в них ведутся по-разному.
+
+Дай в ответе:
+1. Таблицу соответствия: как одна и та же сеть называется в каждом файле.
+2. То же по позициям продукции.
+3. Отдельно — что не сматчилось вообще: сети и позиции, которые есть в одном файле и отсутствуют в другом.
+
+Не додумывай соответствия, в которых не уверен, — выноси их в спорные.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> несматчившееся — и есть главная находка. Там и лишняя сеть, и позиция, которой нет в продажах.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 2</b> Ищем аномалии</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Теперь по этим же данным найди аномалии, выбросы, пропуски и дубли. Назови их прямо, с числами и указанием месяца, не сглаживай.
+
+Отдельно проверь: нет ли позиции, которая продаётся дешевле своей себестоимости. Для этого свяжи продажи и калькуляцию через соответствие наименований из прошлого шага.
+
+Каждую цифру помечай: факт из файла, твоя оценка или гипотеза.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> аномалий заложено несколько. Убыточная позиция — самая ценная находка, её не видно ни в одном файле по отдельности.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 3</b> Считаем сценарий и оформляем</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом — на выходе файл</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Посчитай сценарий: что будет с маржой, если корма подорожают на 10 процентов. Покажи расчёт и все допущения, которые пришлось принять.
+
+Затем собери одним файлом в формате xlsx: лист со сведёнными данными, лист с аномалиями и комментарием к каждой, лист со сценарием и допущениями.
+
+Назови файл «Сведение_и_сценарий».</pre>
+      </div>
+      <p class="out"><b>На выходе:</b> книга, с которой можно идти на коммерческий комитет. Допущения видны, а не спрятаны в одной итоговой цифре.</p>
+    </div>
+  </div>
+</section>
+
+<section id="case5" class="case">
+  <div class="wrap">
+    <p class="kicker">Задание 5 · 60 минут · на выбор с заданием 4</p>
+    <div class="case-head">
+      <h2>Пять документов, которые спорят друг с другом</h2>
+      <span class="pill">юристы, качество, все, кто живёт в регламентах</span>
+      <span class="pill pill-navy">агент «Знаток регламентов»</span>
+    </div>
+    <div class="rule"></div>
+    <p class="lede">Регламент, его старая редакция, приказ поверх него и инструкция, которая ссылается на всё сразу. В жизни человек читает один документ и действует — а действующим оказывается другой. Здесь агент держит весь корпус целиком и отвечает поперёк него.</p>
+
+    <div class="note sky">
+      <p><strong>Здесь работает другой агент — «Знаток регламентов».</strong> Он устроен иначе: документы загружаются в него как знания, и он отвечает строго по ним, а не по общим представлениям. Выберите его в списке агентов и откройте новый чат.</p>
+    </div>
+
+    <h4>Что даём</h4>
+    <ul class="files">
+      <li><a href="files/case5-rg-dr-07-red3.pdf" download>Регламент договорной работы РГ-ДР-07, редакция 3</a><span class="meta">pdf, действует с марта 2026</span></li>
+      <li><a href="files/case5-rg-dr-07-red2.pdf" download>Тот же регламент, редакция 2</a><span class="meta">pdf, февраль 2025 — лежит в той же папке</span></li>
+      <li><a href="files/case5-prikaz-214.pdf" download>Приказ № 214 об изменении предельных значений</a><span class="meta">pdf, август 2026</span></li>
+      <li><a href="files/case5-rg-km-03.pdf" download>Регламент сроков реакции РГ-КМ-03</a><span class="meta">pdf, действует с июня 2026</span></li>
+      <li><a href="files/case5-instrukciya-i-km-11.pdf" download>Инструкция И-КМ-11 по работе с обращениями</a><span class="meta">pdf, март 2026</span></li>
+    </ul>
+
+    <div class="step">
+      <h4><b>Шаг 1</b> Что вообще действует</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Приложите все пять файлов и вставьте это</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Приложены пять документов одной компании: регламент договорной работы в двух редакциях, приказ, регламент сроков реакции и инструкция.
+
+Дай в ответе:
+1. Перечень документов: название, дата, статус — действует или отменён предыдущей редакцией.
+2. Какие документы меняют или дополняют друг друга и в каком порядке по датам.
+
+Если по тексту нельзя понять, действует документ или нет, так и скажи — не угадывай.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> старая редакция нигде не помечена как недействующая. Агент должен это заметить, а не молча взять её как рабочую.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 2</b> Где они противоречат друг другу</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Теперь найди противоречия между этими документами.
+
+1. Где разные документы дают разные значения одного и того же показателя. По каждому случаю: документ, значение, дата, и какое значение считать действующим сегодня.
+2. Где один документ ссылается на пункт другого. Проверь, существует ли этот пункт на самом деле.
+3. Где сроки, установленные разными документами для одного и того же действия, не совпадают.
+
+Под каждый вывод приведи цитату с указанием документа и пункта.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> расхождений несколько, и они разного рода — по цифрам, по срокам и по битой ссылке на несуществующий пункт.</p>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 3</b> Отвечаем на рабочий вопрос и оформляем</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом — на выходе файл</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Контрагент из федеральной сети просит отсрочку 45 дней и ретро-бонус 9 процентов. Менеджер должен ответить сегодня.
+
+Ответь: можно ли согласиться, на основании какого документа, что именно нужно оформить и до какой даты это правило вообще действует.
+
+Затем собери одним документом в формате pdf справку для менеджера: какие документы действуют, таблица расхождений между ними, ответ на вопрос выше со ссылками на пункты и список того, что нужно поправить в самих регламентах. Назови файл «Справка_по_регламентам».</pre>
+      </div>
+      <p class="out"><b>На выходе:</b> ответ со ссылкой на конкретный пункт и с оговоркой про срок действия — не «да, можно», а «да, до определённой даты и с оформлением».</p>
+    </div>
+  </div>
+</section>
+
+<section id="case6" class="case">
+  <div class="wrap">
+    <p class="kicker">Задание 6 · запасное</p>
+    <div class="case-head">
+      <h2>Проверь за ИИ</h2>
+      <span class="pill">для всех, кто прошёл раньше</span>
+    </div>
+    <div class="rule"></div>
+    <p class="lede">Два отчёта, сделанных платформой по одним и тем же данным на один и тот же запрос. Один разобрал данные полностью, второй — нет, и при этом выглядит заметно наряднее. Это настоящие выдачи с нашего прогона, не постановка. Задача — понять, какой из них врёт и в каком месте.</p>
+
+    <h4>Что даём</h4>
+    <ul class="files">
+      <li><a href="files/case6-dannye.xlsx" download>Исходная книга данных</a><span class="meta">xlsx, продажи по сетям, сезонность, цены</span></li>
+      <li><a href="files/case6-otchet-A.pdf" download>Отчёт А</a><span class="meta">pdf, 4 страницы</span></li>
+      <li><a href="files/case6-otchet-B.pdf" download>Отчёт Б</a><span class="meta">pdf, 4 страницы, с цветными плашками</span></li>
+    </ul>
+
+    <div class="step">
+      <h4><b>Шаг 1</b> Сравниваем выводы</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Приложите все три файла и вставьте это</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Приложены книга данных и два отчёта, сделанных по ней на один и тот же запрос.
+
+Сравни отчёты между собой: где их выводы расходятся. Оформи таблицей: утверждение отчёта А, утверждение отчёта Б, и что говорят сами данные.
+
+Проверяй по книге, а не по тому, какой отчёт выглядит убедительнее.</pre>
+      </div>
+    </div>
+
+    <div class="step">
+      <h4><b>Шаг 2</b> Ищем, где отчёт врёт</h4>
+      <div class="promptbox">
+        <div class="bar"><span>Тем же чатом</span><button class="copy" type="button">Копировать</button></div>
+        <pre>Теперь по каждому расхождению скажи прямо: это утверждение в отчёте верное, неполное или неверное. Приведи число из книги, которое это подтверждает.
+
+Отдельно отметь: есть ли в отчётах утверждения вида «такого в данных не найдено», которые на самом деле не соответствуют книге.</pre>
+      </div>
+      <p class="out"><b>Проверьте:</b> в одном из отчётов есть прямые утверждения об отсутствии того, что в данных есть. Это опаснее, чем пропуск: пропуск виден, а такое утверждение успокаивает.</p>
+    </div>
+
+    <p>Вывод, ради которого задание стоит в программе: <strong>красиво оформленный ответ и верный ответ — это разные вещи</strong>, и отличить их можно только по исходным данным. Отсюда правило на каждый день — задать тот же вопрос ещё раз и сравнить.</p>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <p class="kicker">Как это работает</p>
+    <h2>Что стоит за ответами агента</h2>
+    <div class="rule"></div>
+    <p class="lede">Весь день вы работаете с одним агентом — <strong>«Дамате Практикум»</strong>. Он собран заранее и настроен под то, чем вы сегодня занимаетесь: разбор документов, работа с таблицами и выгрузка результата файлом. Под ним модель Sonnet 5.</p>
+
+    <p>Важно понимать: вы не разговариваете напрямую с языковой моделью. Между вами и ей стоит сервис, в котором заранее проделана подготовительная работа. Именно поэтому ответ приходит в нужном виде, а файл собирается в один запрос.</p>
+
+    <h3>Из чего агент собран</h3>
+    <div class="grid">
+      <div class="card">
+        <h3>Инструкции</h3>
+        <p>Кем агент себя считает и что обязан делать всегда: помечать факты и оценки, не выдумывать цифры, отвечать таблицей там, где просят таблицу.</p>
+      </div>
+      <div class="card">
+        <h3>Знания</h3>
+        <p>Документы, загруженные в агента заранее, — он отвечает по ним, а не по общим представлениям из интернета.</p>
+      </div>
+      <div class="card">
+        <h3>Навыки</h3>
+        <p>Что он умеет сверх разговора: собрать документ, посчитать в таблице, поискать в интернете. Навык добавляется администратором и дальше работает молча.</p>
+      </div>
+      <div class="card">
+        <h3>Модель</h3>
+        <p>Кто именно думает. Для практикума выбран Sonnet 5 — разумный баланс качества и стоимости запроса.</p>
+      </div>
+    </div>
+
+    <p>В этом блоке ведущий откроет агента, с которым вы работали весь день, и покажет каждую из четырёх частей изнутри — как выглядит инструкция, как выглядит навык, что именно заставило платформу выдать вам документ, а не простыню текста.</p>
+
+    <div class="note">
+      <p><strong>Настройка агентов — работа администраторов.</strong> Заводить агентов и навыки будут выделенные люди со стороны компании. Вам это делать не нужно и по правам недоступно — но знать, что за вашим ответом стоит настройка, а не магия, полезно: становится понятно, что просить у администраторов, когда агент отвечает не так, как хочется.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tricks">
+  <div class="wrap">
+    <p class="kicker">Инструменты</p>
+    <h2>Десять приёмов</h2>
+    <div class="rule"></div>
+    <p class="lede">Работают поверх любой задачи. Скопируйте в свои заметки — пригодятся после практикума больше, чем сами задания.</p>
+    <table>
+      <thead><tr><th>Приём</th><th>Когда применять</th></tr></thead>
+      <tbody>
+        <tr><td>Сначала задай мне до пяти вопросов, без которых хороший результат невозможен. Не решай сразу.</td><td>задача сложнее одного абзаца</td></tr>
+        <tr><td>Раскритикуй свой ответ как внешний консультант: три слабых места и то, что выглядит убедительно, но не подтверждено.</td><td>ответ понравился — особенно тогда</td></tr>
+        <tr><td>Задайте один и тот же вопрос трижды в разных чатах и сравните. Где ответы расходятся — там проверяйте руками.</td><td>перед тем как нести цифру дальше</td></tr>
+        <tr><td>Покажи расчёт и допущения.</td><td>появилась любая цифра</td></tr>
+        <tr><td>Помечай: факт из документа, твоя оценка или гипотеза.</td><td>всегда, когда есть данные</td></tr>
+        <tr><td>Приведи цитату из документа под каждый вывод.</td><td>работа с договором, регламентом, СОПом</td></tr>
+        <tr><td>Что я упустил в постановке задачи?</td><td>результат «почти то, но не то»</td></tr>
+        <tr><td>Сделай таблицей, а не текстом.</td><td>сравнение, перечень, статусы</td></tr>
+        <tr><td>Сократи втрое без потери смысла.</td><td>текст пойдёт руководителю</td></tr>
+        <tr><td>Сохрани это как шаблон и напиши, что подставлять в следующий раз.</td><td>задача повторяется каждый месяц</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="data">
+  <div class="wrap">
+    <p class="kicker">Безопасность</p>
+    <h2>Правила по данным</h2>
+    <div class="rule"></div>
+    <div class="note">
+      <p><strong>Все файлы на этой странице учебные и обезличенные.</strong> Их можно грузить свободно. Со своими рабочими данными — по правилам ниже.</p>
+    </div>
+    <ul>
+      <li>Фамилии сотрудников, клиентов и контрагентов убираем или заменяем на роли: «менеджер по закупкам», «поставщик».</li>
+      <li>Названия сетей и партнёров — на «Сеть А», «Сеть Б». Смысл разбора от этого не меняется.</li>
+      <li>Персональные данные и коммерческую тайну в облачные модели не грузим.</li>
+      <li>При выборе модели смотрите пометку в интерфейсе: она показывает, остаются данные в контуре или уходят наружу.</li>
+      <li>Сомневаетесь — спросите ведущего до того, как приложите файл, а не после.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="takeaway">
+  <div class="wrap">
+    <p class="kicker">Итог</p>
+    <h2>Что уносите с практикума</h2>
+    <div class="rule"></div>
+    <ul>
+      <li><strong>Свой шаблон запроса</strong> под задачу, которая у вас повторяется каждый месяц.</li>
+      <li><strong>Разобранное задание</strong> своего направления — с файлами-результатами.</li>
+      <li><strong>Десять приёмов</strong> и главное правило: спроси трижды, прежде чем поверить.</li>
+      <li><strong>Карточку своей инициативы</strong> — с метрикой, владельцем и прикидкой эффекта.</li>
+      <li>Понимание, <strong>к какому агенту идти с какой задачей</strong> и чего от него требовать бессмысленно.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="glossary">
+  <div class="wrap">
+    <p class="kicker">Справка</p>
+    <h2>Глоссарий</h2>
+    <div class="rule"></div>
+    <table>
+      <tbody>
+        <tr><td class="t">Смарт-платформа</td><td>Единое окно для работы с языковыми моделями: чат, файлы, агенты, выгрузка результата.</td></tr>
+        <tr><td class="t">Агент</td><td>Настроенный под класс задач помощник: свои инструкции, свои знания, свои навыки.</td></tr>
+        <tr><td class="t">Запрос</td><td>Постановка задачи словами. Чем точнее сказано, что на выходе, тем меньше переделок.</td></tr>
+        <tr><td class="t">Контекст</td><td>Всё, что модель видит сейчас: ваш текст и приложенные файлы. Чего в контексте нет — того для неё не существует.</td></tr>
+        <tr><td class="t">Навык</td><td>Дополнительное умение агента: собрать документ, посчитать в таблице, поискать в интернете.</td></tr>
+        <tr><td class="t">Выдумка</td><td>Уверенно сказанная неправда. Лечится требованием цитат и расчётов.</td></tr>
+        <tr><td class="t">Разброс ответов</td><td>Один вопрос, заданный дважды, может дать разные ответы. Это свойство технологии, а не поломка — поэтому проверяем.</td></tr>
+        <tr><td class="t">Аномалия</td><td>Значение, выбивающееся из ряда: провал объёма, скачок цены, пустая ячейка, дубль строки.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="brand">Наука и Роботы</p>
+    <p>Практикум для Дамате · второй поток · 9 октября 2026 года</p>
+    <p>Если что-то не открывается, файл не грузится или агент отвечает ерундой — поднимите руку, помощник группы подойдёт. Не сидите в тупике: на это и нужно живое занятие.</p>
+    <p><button class="themebtn" type="button" id="theme">Сменить тему</button></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.querySelectorAll('.promptbox').forEach(function(box){
+    var btn = box.querySelector('.copy');
+    var pre = box.querySelector('pre');
+    if(!btn || !pre) return;
+    btn.addEventListener('click', function(){
+      var text = pre.innerText;
+      var done = function(){
+        btn.textContent = 'Скопировано';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = 'Копировать'; btn.classList.remove('done'); }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly','');
+        ta.style.position='fixed'; ta.style.top='-1000px';
+        document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); done(); }
+        catch(e){ btn.textContent = 'Выделите вручную'; }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  var KEY = 'sp-w2-theme';
+  var root = document.documentElement;
+  try{
+    var saved = localStorage.getItem(KEY);
+    if(saved){ root.setAttribute('data-theme', saved); }
+  }catch(e){}
+  var tb = document.getElementById('theme');
+  if(tb){
+    tb.addEventListener('click', function(){
+      var cur = root.getAttribute('data-theme');
+      if(!cur){
+        var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        cur = dark ? 'dark' : 'light';
+      }
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try{ localStorage.setItem(KEY, next); }catch(e){}
+    });
+  }
+})();
+</script>
+</body>
+</html>
