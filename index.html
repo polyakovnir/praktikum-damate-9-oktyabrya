@@ -98,6 +98,22 @@ th{background:var(--panel); font-size:12.5px; text-transform:uppercase; letter-s
 td.t{white-space:nowrap; color:var(--or); font-weight:bold; font-variant-numeric:tabular-nums}
 
 .card{background:var(--card); border:1px solid var(--line); border-top:4px solid var(--or); border-radius:4px; padding:16px 18px; margin:16px 0}
+.theory-flow{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; list-style:none; padding:0; margin:24px 0 30px}
+.theory-flow li{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; margin:0}
+.theory-flow li+li::before{content:"→"; position:absolute; left:-17px; top:50%; transform:translateY(-50%); color:var(--or); font-size:26px; z-index:1}
+.theory-flow strong,.theory-flow span{display:block}
+.theory-flow span{font-size:14px; color:var(--muted); margin-top:5px; line-height:1.4}
+.theory-flow .theory-agent{background:var(--cream-bg); color:var(--cream-fg); border-color:var(--or)}
+.theory-flow .theory-agent span{color:inherit}
+.theory-definitions{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 0}
+.theory-definitions .card{margin:0}
+.theory-definitions h3{margin-top:8px}
+.theory-steps li{margin-bottom:10px}
+@media(max-width:700px){
+  .theory-flow{grid-template-columns:1fr; gap:18px}
+  .theory-flow li+li::before{content:"↓"; left:50%; top:-22px; transform:translateX(-50%)}
+  .theory-definitions{grid-template-columns:1fr}
+}
 .case{scroll-margin-top:14px}
 .case-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
 .pill{display:inline-block; background:var(--cream-bg); color:var(--cream-fg); padding:4px 11px; border-radius:999px; font-size:13px; font-weight:bold; white-space:nowrap}
@@ -197,6 +213,8 @@ footer .brand{font-weight:bold; color:var(--or); letter-spacing:.08em; text-tran
       <li><a href="#case4">4. Цифры</a></li>
       <li><a href="#case5">5. Регламенты</a></li>
       <li><a href="#case6">Проверь за ИИ</a></li>
+      <li><a href="#theory-model">Модель, агент и инструменты</a></li>
+      <li><a href="#theory-orchestration">Оркестрация</a></li>
       <li><a href="#agents">Как устроен агент</a></li>
       <li><a href="#tricks">Приёмы</a></li>
       <li><a href="#data">Правила по данным</a></li>
@@ -2608,6 +2626,58 @@ USD, EUR, CNY и индекса цен на корма за тот же пери
     </div>
 
     <p>Вывод, ради которого задание стоит в программе: <strong>красиво оформленный ответ и верный ответ — это разные вещи</strong>, и отличить их можно только по исходным данным. Отсюда правило на каждый день — задать тот же вопрос ещё раз и сравнить.</p>
+  </div>
+</section>
+
+<section id="theory-model">
+  <div class="wrap">
+    <p class="kicker">Теория · слайд 1 из 2</p>
+    <h2>Модель, агент и инструменты — не одно и то же</h2>
+    <div class="rule"></div>
+    <p class="lede">Языковая модель формулирует ответ. Агент добавляет к ней рабочий контекст и правила. Инструменты позволяют сделать действие: прочитать файл, посчитать в таблице или собрать документ.</p>
+
+    <ol class="theory-flow" aria-label="От задачи к результату">
+      <li><strong>Ваша задача</strong><span>что нужно получить и в каком виде</span></li>
+      <li class="theory-agent"><strong>Агент</strong><span>инструкции, знания и доступные инструменты</span></li>
+      <li><strong>Модель + инструменты</strong><span>думает, читает файлы, считает или собирает результат</span></li>
+      <li><strong>Ответ или файл</strong><span>то, что вы проверяете и используете в работе</span></li>
+    </ol>
+
+    <div class="theory-definitions">
+      <div class="card">
+        <h3>Модель</h3>
+        <p>Продолжает текст и помогает рассуждать. Сама по себе она не открывает ваши файлы и не создаёт документ по кнопке.</p>
+      </div>
+      <div class="card">
+        <h3>Инструмент</h3>
+        <p>Отдельная способность выполнить действие: обработать таблицу, подготовить файл, найти информацию или прочитать приложенный документ.</p>
+      </div>
+      <div class="card">
+        <h3>Агент</h3>
+        <p>Настроенный помощник, который знает, какие инструменты доступны, когда их применять и каким должен быть результат.</p>
+      </div>
+    </div>
+    <div class="note sky">
+      <p><strong>Практический вывод:</strong> если нужен файл, таблица или работа с несколькими документами, сформулируйте это прямо. Агенту важно назвать не только тему, но и действие и ожидаемый формат результата.</p>
+    </div>
+  </div>
+</section>
+
+<section id="theory-orchestration">
+  <div class="wrap">
+    <p class="kicker">Теория · слайд 2 из 2</p>
+    <h2>Оркестрация: кто собирает шаги в один результат</h2>
+    <div class="rule"></div>
+    <p class="lede">Оркестрация — это правила, по которым система ведёт задачу: передаёт модели контекст, выбирает подходящий инструмент и возвращает итог в чат. Это не отдельная «магическая модель», а способ организовать последовательность действий.</p>
+    <ol class="theory-steps">
+      <li><strong>Понять задачу:</strong> что нужно сделать, какие файлы и ограничения есть.</li>
+      <li><strong>Выбрать следующий шаг:</strong> ответить текстом, посмотреть документ, посчитать или собрать файл.</li>
+      <li><strong>Передать контекст:</strong> приложенные материалы и уже полученные промежуточные результаты.</li>
+      <li><strong>Вернуть результат на проверку:</strong> агент выдаёт ответ, но ответственность за смысл и факты остаётся у человека.</li>
+    </ol>
+    <div class="note">
+      <p><strong>Почему в заданиях шаги идут по очереди:</strong> следующий запрос использует вывод предыдущего. Не отправляйте два шага одновременно и не смешивайте разные кейсы в одном чате — иначе системе сложнее удержать нужный контекст.</p>
+    </div>
   </div>
 </section>
 
