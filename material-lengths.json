@@ -1,0 +1,63 @@
+[
+  {
+    "case": 1,
+    "before": 13955,
+    "after": 4444,
+    "files": [
+      "case1-planerka-1.txt",
+      "case1-planerka-2.txt",
+      "case1-planerka-3.txt"
+    ]
+  },
+  {
+    "case": 2,
+    "before": 15527,
+    "after": 4620,
+    "files": [
+      "case2-dogovor-nash.docx",
+      "case2-dogovor-kontragent.docx",
+      "case2-reglament.pdf"
+    ]
+  },
+  {
+    "case": 3,
+    "before": 9100,
+    "after": 3783,
+    "files": [
+      "case3-pochta-den.docx",
+      "case3-reglament-srokov.pdf"
+    ]
+  },
+  {
+    "case": 4,
+    "before": 17052,
+    "after": 4257,
+    "files": [
+      "case4-prodazhi-po-setyam.xlsx",
+      "case4-ceny-rynka.xlsx",
+      "case4-sebestoimost.csv"
+    ]
+  },
+  {
+    "case": 5,
+    "before": 10112,
+    "after": 4000,
+    "files": [
+      "case5-rg-dr-07-red3.pdf",
+      "case5-rg-dr-07-red2.pdf",
+      "case5-prikaz-214.pdf",
+      "case5-rg-km-03.pdf",
+      "case5-instrukciya-i-km-11.pdf"
+    ]
+  },
+  {
+    "case": 6,
+    "before": 33661,
+    "after": 4657,
+    "files": [
+      "case6-dannye.xlsx",
+      "case6-otchet-A.pdf",
+      "case6-otchet-B.pdf"
+    ]
+  }
+]
