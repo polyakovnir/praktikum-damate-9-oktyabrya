@@ -2081,6 +2081,37 @@ footer .brand{font-weight:bold; color:var(--or); letter-spacing:.08em; text-tran
 
 <script>
 (function(){
+  document.querySelectorAll('.prompt-part').forEach(function(part){
+    var summary = part.querySelector('summary');
+    var animation = null;
+    var expanded = part.open;
+    summary.addEventListener('click', function(event){
+      if(!part.animate) return;
+      event.preventDefault();
+      expanded = !expanded;
+      var startHeight = part.getBoundingClientRect().height;
+      if(animation){ animation.cancel(); animation = null; }
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        part.open = expanded;
+        part.style.overflow = '';
+        return;
+      }
+      // Keep content rendered until closing finishes; reverse from the current height.
+      part.open = true;
+      var endHeight = expanded ? part.getBoundingClientRect().height : summary.getBoundingClientRect().height;
+      part.style.overflow = 'hidden';
+      animation = part.animate([
+        { height: startHeight + 'px' },
+        { height: endHeight + 'px' }
+      ], { duration: 280, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
+      animation.onfinish = function(){
+        part.open = expanded;
+        part.style.overflow = '';
+        animation = null;
+      };
+    });
+  });
+
   document.querySelectorAll('.promptbox').forEach(function(box){
     var btn = box.querySelector('.copy');
     var structured = box.querySelector('.structured-prompt');
