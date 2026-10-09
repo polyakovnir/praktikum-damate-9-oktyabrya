@@ -59,13 +59,13 @@
   {
     "case": 4,
     "before": 17052,
-    "after": 799,
+    "after": 1358,
     "files": [
       "case4-simple.xlsx"
     ],
-    "reserve_characters": 799,
+    "reserve_characters": 1358,
     "download_files": "simplified_single_sheet",
-    "scope": "Файлы XLSX, CSV и текст содержат одинаковую упрощённую выборку.",
+    "scope": "Одинаковые шесть строк во всех форматах. Текстовый вариант включает запрос шага 1 и таблицу одним сообщением.",
     "display_number": 5
   }
 ]
