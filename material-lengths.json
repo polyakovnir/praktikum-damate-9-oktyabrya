@@ -2,62 +2,80 @@
   {
     "case": 1,
     "before": 13955,
-    "after": 4444,
+    "after": 4760,
     "files": [
       "case1-planerka-1.txt",
       "case1-planerka-2.txt",
       "case1-planerka-3.txt"
-    ]
+    ],
+    "reserve_characters": 4760,
+    "download_files": "original_full",
+    "scope": "Сокращены повторы и второстепенные реплики. Сохранены три встречи, поручения, сроки и открытые вопросы."
   },
   {
     "case": 2,
     "before": 15527,
-    "after": 4620,
+    "after": 4923,
     "files": [
       "case2-dogovor-nash.docx",
       "case2-dogovor-kontragent.docx",
       "case2-reglament.pdf"
-    ]
+    ],
+    "reserve_characters": 4923,
+    "download_files": "original_full",
+    "scope": "Выбраны пункты 2.1, 2.3, 2.4, 4.3, 4.5–4.6, 6.2–6.3, 10.1. Остальные изменения проверяются только по полным файлам. Таблица лимитов сокращена."
   },
   {
     "case": 3,
     "before": 9100,
-    "after": 3783,
+    "after": 4090,
     "files": [
       "case3-pochta-den.docx",
       "case3-reglament-srokov.pdf"
-    ]
+    ],
+    "reserve_characters": 4090,
+    "download_files": "original_full",
+    "scope": "Сокращены тексты всех 22 писем и регламент; порядок писем, ключевые запросы и сроки сохранены."
   },
   {
     "case": 4,
     "before": 17052,
-    "after": 4257,
+    "after": 4622,
     "files": [
       "case4-prodazhi-po-setyam.xlsx",
       "case4-ceny-rynka.xlsx",
       "case4-sebestoimost.csv"
-    ]
+    ],
+    "reserve_characters": 4622,
+    "download_files": "original_full",
+    "scope": "Продажи: май, июль, октябрь, декабрь — 61 строка вместо 181 за год. Цены по сетям — те же четыре месяца; ряд цен мяса за год и калькуляция сохранены. Итоги выборки не равны итогам года."
   },
   {
     "case": 5,
     "before": 10112,
-    "after": 4000,
+    "after": 4984,
     "files": [
       "case5-rg-dr-07-red3.pdf",
       "case5-rg-dr-07-red2.pdf",
       "case5-prikaz-214.pdf",
       "case5-rg-km-03.pdf",
       "case5-instrukciya-i-km-11.pdf"
-    ]
+    ],
+    "reserve_characters": 4984,
+    "download_files": "original_full",
+    "scope": "Выбраны условия для сравнения редакций, приказа и сроков реакции. Таблицы лимитов сокращены. Остальные положения смотрите в полных файлах."
   },
   {
     "case": 6,
     "before": 33661,
-    "after": 4657,
+    "after": 4655,
     "files": [
       "case6-dannye.xlsx",
       "case6-otchet-A.pdf",
       "case6-otchet-B.pdf"
-    ]
+    ],
+    "reserve_characters": 4655,
+    "download_files": "original_full",
+    "scope": "Числовые ряды сохранены; оформление и служебные пояснения сокращены. Вместо полных отчётов — выбранные дословные утверждения, в том числе ошибочные. Проверяйте только приведённые утверждения."
   }
 ]
