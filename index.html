@@ -1466,7 +1466,7 @@ S142;октябрь;Метрополь ТС;Фарш;40.3;240.3;241.2
     if(structured) btn.setAttribute('title', 'Копировать весь запрос, включая закрытые части');
     btn.addEventListener('click', function(){
       var text = structured ? Array.from(structured.querySelectorAll('.prompt-part')).map(function(part){
-        return part.querySelector('summary').textContent + '\n' + part.querySelector('.prompt-part-body').textContent;
+        return part.querySelector('summary').textContent.trim().replace(/:$/, '') + ':\n' + part.querySelector('.prompt-part-body').textContent.trim();
       }).join('\n\n') : pre.textContent;
       var label = btn.getAttribute('data-copy-label') || btn.textContent;
       btn.setAttribute('data-copy-label', label);
